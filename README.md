@@ -1,5 +1,12 @@
 # GMQL-Sync
-Script to synchronize GMQL repository between servers
+The script is designed for synchronizing GMQL repository between two servers
+
+## Requirements
+The following tools are required on both servers for the correct work of the script:
+   - rsync
+   - xpath
+   - ssh
+   - hadoop
 
 ## Usage
 ```sh
@@ -24,8 +31,4 @@ The script also generates a .log file in `$scriptLogDir`
 
 Note: The tool consists of several script files to make less ssh connections
 
-The following tools are required on both servers for the correct work of the script:
-   - rsync
-   - xpath
-   - ssh
-   - hadoop
+
