@@ -1,17 +1,55 @@
 # GMQL-Sync
-The script is designed for synchronizing GMQL repository between two servers
+The script is designed for synchronizing GMQL public repository between two servers
 
 ## Requirements
-The following tools are required on both servers for the correct work of the script:
-   - rsync
-   - xpath
+The following tools are required to be installed on both servers for the correct work of the script:
+   - Apache Hadoop.
+      - Guide for Apache Hadoop installation can be found in [Hadoop installation page](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html).
+   - rsync:
+      - Rsync is installed in Ubuntu by default. If not, you can use this command in terminal (Ubuntu/Debian):
+         ```sh
+         $ sudo apt-get install rsync
+         ```
+   - xpath:
+       - You can use this command in terminal (Ubuntu/Debian):
+         ```sh
+         $ sudo apt-get install libxml-xpath-perl
+         ```
    - ssh
-   - hadoop
+      - You can use this command in terminal (Ubuntu/Debian):
+         ```sh
+         $ sudo apt-get install ssh
+         ```
 
 ## Usage
 ```sh
 $ ./gmqlsync.sh [<options>] <SOURCE> <DEST>
 ```
+`gmqlsync.sh` **MUST BE** run on `<SOURCE>` server
+   
+### Defaults
+It can also be used with no parameters:
+   ```sh 
+   $ ./gmqlsync.sh
+   ```
+In that case, the `<SOURCE>` and `<DEST>` are set to the following:
+  - `<SOURCE>`=/home/gmql/gmql_repository/data/public
+  - `<DEST>`=cineca:/gmql-data/gmql_repository/data/public
+
+**NOTE:** This will work from `genomic` server only
+
+### Options
+| Option | Description |
+|--------|-------------|
+|  `--delete`| delete extraneous files from destination dirs|
+|  `--dry-run`| perform a trial run with no changes made, this only generates a list of changed datasets|
+|  `--user`| set user name (hdfs folder name) to synchronize|
+|  `--tmpDir`| set temporary directory for local script output files. Default value is `"/share/repository/gmqlsync/tmpSYNC"`|
+|  `--tmpHdfsSource`| set temporary directory for hdfs files movement on source server. Default value is `"/share/repository/gmqlsync/tmpHDFS"`|
+|  `--tmpHdfsDest`| set temporary directory for hdfs files movement on destination server. Default value is `"/hadoop/gmql-sync-temp"`|
+|  `--logsDir`| logging directory on source server. Default value is `"/share/repository/gmqlsync/logs/"`|
+|  `--help, (-h)`| show help|
+
 ## Description
 The script is build for synchronizing gmql repository of public datasets.
 It first checks if there are any difference in local FS gmql repository by running 'rsync' tool in dry-run mode.
@@ -29,6 +67,10 @@ Finally, clean up temporary hdfs directories.
 
 The script also generates a .log file in `$scriptLogDir`
 
-Note: The tool consists of several script files to make less ssh connections
+## Script files
+The tool consists of several script files to make less ssh connections:
+- `gmqlsync.sh` is the main script file to be used
+- `gmqlsyncCheckHdfsDest.sh` gets dataset size in hdfs on the destination server
+- `gmqlsyncDelHdfsDest.sh` removes datasets on the destination server
 
 
