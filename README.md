@@ -28,16 +28,17 @@ In that case, the `<SOURCE>` and `<DEST>` are set to the following:
   - `<DEST>`=cineca:/gmql-data/gmql_repository/data/public
 
 ### Options
-| Option | Description |
-|--------|-------------|
-|  `--delete`| delete extraneous files from destination dirs|
-|  `--dry-run`| perform a trial run with no changes made, this only generates a list of changed datasets|
-|  `--user`| set user name (hdfs folder name) to synchronize|
-|  `--tmpDir`| set temporary directory for local script output files. Default value is `"/share/repository/gmqlsync/tmpSYNC"`|
-|  `--tmpHdfsSource`| set temporary directory for hdfs files movement on source server. Default value is `"/share/repository/gmqlsync/tmpHDFS"`|
-|  `--tmpHdfsDest`| set temporary directory for hdfs files movement on destination server. Default value is `"/hadoop/gmql-sync-temp"`|
-|  `--logsDir`| logging directory on source server. Default value is `"/share/repository/gmqlsync/logs/"`|
-|  `--help, (-h)`| show help|
+| Option            | Description |
+|-------------------|-------------|
+|  `--delete`       | delete extraneous files from destination dirs|
+|  `--dry-run`      | perform a trial run with no changes made, this only generates a list of changed datasets|
+|  `--user`         | set user name (hdfs folder name) to synchronize|
+|  `--tmpDir`       | set temporary directory for local script output files. Default value is: <br/> `"/share/repository/gmqlsync/tmpSYNC"`|
+|  `--tmpHdfsSource`| set temporary directory for hdfs files movement on source server. Default value is: <br/> `"/share/repository/gmqlsync/tmpHDFS"`|
+|  `--tmpHdfsDest`  | set temporary directory for hdfs files movement on destination server. Default value is: <br/> `"/hadoop/gmql-sync-temp"`|
+|  `--logsDir`      | logging directory on source server. Default value is  `"/share/repository/gmqlsync/logs/"`|
+|  `--help, (-h)`   | show help|
+
 
 ## Description
 The script is build for synchronizing gmql repository of public datasets.
