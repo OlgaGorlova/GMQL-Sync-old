@@ -5,22 +5,13 @@ The script is designed for synchronizing GMQL public repository between two serv
 The following tools are required to be installed on both servers for the correct work of the script:
    - Apache Hadoop.
       - Guide for Apache Hadoop installation can be found in [Hadoop installation page](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html).
-   - rsync:
-      - Rsync is installed in Ubuntu by default. If not, you can use this command in terminal (Ubuntu/Debian):
-         ```sh
+   - Make sure that `rsync`, `ssh` and `xpath` are installed:
+      - You can use this command in terminal (Ubuntu/Debian) to install them:
+          ```sh
          $ sudo apt-get install rsync
-         ```
-   - xpath:
-       - You can use this command in terminal (Ubuntu/Debian):
-         ```sh
          $ sudo apt-get install libxml-xpath-perl
-         ```
-   - ssh
-      - You can use this command in terminal (Ubuntu/Debian):
-         ```sh
          $ sudo apt-get install ssh
          ```
-
 ## Usage
 ```sh
 $ ./gmqlsync.sh [<options>] <SOURCE> <DEST>
