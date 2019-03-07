@@ -79,6 +79,6 @@ The tool consists of several script files to make less ssh connections:
 - `gmqlsyncCheckHdfsDest.sh` gets dataset size in hdfs on the destination server
 - `gmqlsyncDelHdfsDest.sh` removes datasets on the destination server
 
-**NOTE:** Ssh connection to the remote server should be passwordless.
+**NOTE:** `ssh` connection to the remote server should be passwordless.
 
 
