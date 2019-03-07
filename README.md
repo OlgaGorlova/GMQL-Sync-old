@@ -39,6 +39,22 @@ In that case, the `<SOURCE>` and `<DEST>` are set to the following:
 |  `--logsDir`      | logging directory on source server. Default value is  `"/share/repository/gmqlsync/logs/"`|
 |  `--help, (-h)`   | show help|
 
+### Examples
+
+1. To synchronize cineca server with genomic, run the following command:
+```sh
+$ ./gmqlsync.sh /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
+```
+2. To get a list of datasets that exists on genomic server, but are missed on cineca server, run the following:
+```sh
+$ ./gmqlsync.sh --dry-run /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
+```
+   With `--dry-run` option, the script only checks for differences on the serves, and generates a file with a list of new     datasets.
+
+3. To allow deletion of datasets that we removed from genomic server, use the following command:
+```sh
+$ ./gmqlsync.sh --delete /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
+```
 
 ## Description
 The script is build for synchronizing gmql repository of public datasets.
@@ -62,5 +78,7 @@ The tool consists of several script files to make less ssh connections:
 - `gmqlsync.sh` is the main script file to be used
 - `gmqlsyncCheckHdfsDest.sh` gets dataset size in hdfs on the destination server
 - `gmqlsyncDelHdfsDest.sh` removes datasets on the destination server
+
+**NOTE:** Ssh connection to the remote server should be passwordless.
 
 
