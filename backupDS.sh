@@ -82,7 +82,7 @@ parse_input()
 
         shift "$(($OPTIND -1))"
 
-        if [ "$#" -eq 0 ] || [ "$#" -lt 2 ]; then
+        if [ "$#" -eq 0 ]; then
             echo "Illegal number of parameters"
             usage; exit 1;
         else
