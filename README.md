@@ -18,7 +18,7 @@ $ ./gmqlsync.sh [<options>] <SOURCE> <DEST>
 ```
 `gmqlsync.sh` **MUST BE** run on `<SOURCE>` server
    
-### Defaults
+<!--### Defaults
 It can also be used with no parameters:
    ```sh 
    $ ./gmqlsync.sh
@@ -26,6 +26,7 @@ It can also be used with no parameters:
 In that case, the `<SOURCE>` and `<DEST>` are set to the following:
   - `<SOURCE>`=/home/gmql/gmql_repository/data/public
   - `<DEST>`=cineca:/gmql-data/gmql_repository/data/public
+-->
 
 ### Options
 | Option            | Description |
