@@ -18,7 +18,7 @@ $ ./gmqlsync.sh [<options>] <SOURCE> <DEST>
 ```
 `gmqlsync.sh` **MUST BE** run on `<SOURCE>` server
    
-### Defaults
+<!--### Defaults
 It can also be used with no parameters:
    ```sh 
    $ ./gmqlsync.sh
@@ -26,6 +26,7 @@ It can also be used with no parameters:
 In that case, the `<SOURCE>` and `<DEST>` are set to the following:
   - `<SOURCE>`=/home/gmql/gmql_repository/data/public
   - `<DEST>`=cineca:/gmql-data/gmql_repository/data/public
+-->
 
 ### Options
 | Option            | Description |
@@ -81,4 +82,34 @@ The tool consists of several script files to make less ssh connections:
 
 **NOTE:** `ssh` connection to the remote server should be passwordless.
 
+# Backup script
+The script is designed for backing up GMQL public repository after the synchronization. 
+
+## Description
+The script performs the backup of the datasets from a given list to a given destination server. It simply downloads the datasets from genomic server using REST API. If `--full` option is used, then it firts takes the list of all datasets in genomic repository and then downloads all of them to destination server.
+
+## Usage
+```sh
+$ ./backupDS.sh [<options>] <FILENAME> <DEST>
+```
+`<DEST>` should be in the following format: `<server>:<path>`
+
+### Options
+| Option            | Description |
+|-------------------|-------------|
+|  `--full`         | do the full GMQL repository backup|
+|  `--help, (-h)`   | show help|
+
+### Examples
+
+1. After running the synchronization, you can find the datasets that were added in the following file:
+`"/share/repository/gmqlsync/tmpSYNC/rsync_add.txt"`
+You can use this file to backup the newly added datasets:
+```sh
+$ ./backupDS.sh /share/repository/gmqlsync/tmpSYNC/rsync_add.txt geco:/home/hdfs/gmql_repo_backup/
+```
+2. If you want to do the backup of full GMQL public repository, then you can use `--full` option. In this case, you do not need to provide the file with dataset list:
+```sh
+$ ./backupDS.sh --full geco:/home/hdfs/gmql_repo_backup/
+```
 
