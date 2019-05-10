@@ -405,10 +405,10 @@ tmpDir_Is_Empty
 
 #### Trim spaces arround $optionsList
 optionsList=($(echo "$optionsList" | awk '{gsub(/^ +| +$/,"")} {print $0}'))
-
+excludeOption="--exclude={dag,indexes,logs,queries,results,regions,'.*',${excludedDatasets#","}}"
 #### Rsync command dry-run
 logThis "Rsync dry-run is executing..." INFO
-rsyncDryRun="$(rsync -avzh --exclude={dag,indexes,logs,queries,results,regions,'.*',$excludedDatasets} --ignore-existing --itemize-changes $optionsList --dry-run $SOURCE/s $DEST/)"
+rsyncDryRun="$(rsync -avzh $excludeOption --ignore-existing --itemize-changes $optionsList --dry-run $SOURCE/ $DEST/)"
 check_command_output "An error occured during rsync dry-run command execution!"
 logThis "Rsync dry-run has finished" INFO
 
@@ -569,7 +569,7 @@ then
 
     #### Synchronize local gmql repository using 'rsync'
     logThis "Executing rsync for syncing local FS ..." INFO
-    rsync_run="$(rsync -avzh --ignore-existing --itemize-changes $optionsList $SOURCE/ $DEST/)"
+rsync_run="$(rsync -avzh --exclude={${excludedDatasets#","}} --ignore-existing --itemize-changes $optionsList $SOURCE/ $DEST/)"
     check_command_output "An error occured during rsync command execution!"
 
     ### Clean temporary hdfs folders
