@@ -111,6 +111,7 @@ optionsShort="-"
 inputOptions="h-:"
 datePattern="$(date +%d/%m/%Y\ %H:%M:%S)"
 excludeOption="--exclude={dag,indexes,logs,queries,results,regions,'.*'}"
+excludedDatasets=
 
 ##################################################################################
 ######                       END OF GLOBAL VARIABLES                        ######
@@ -300,7 +301,7 @@ parse_input()
                             logThis "Logging level is set to: '${scriptLoggingLevel}'" INFO
                             ;;
                         exclude=*) val=${OPTARG#*=}
-                            excludeOption="--exclude=$val"
+                            excludedDatasets="$excludedDatasets,$val"
                             logThis "The following will be excluded from copiyng: '$val'" INFO
                             ;;
                         help) usage; exit ;;
@@ -407,7 +408,7 @@ optionsList=($(echo "$optionsList" | awk '{gsub(/^ +| +$/,"")} {print $0}'))
 
 #### Rsync command dry-run
 logThis "Rsync dry-run is executing..." INFO
-rsyncDryRun="$(rsync -avzh --exclude={dag,indexes,logs,queries,results,regions,'.*'} --ignore-existing --itemize-changes $optionsList --dry-run $SOURCE/s $DEST/)"
+rsyncDryRun="$(rsync -avzh --exclude={dag,indexes,logs,queries,results,regions,'.*',$excludedDatasets} --ignore-existing --itemize-changes $optionsList --dry-run $SOURCE/s $DEST/)"
 check_command_output "An error occured during rsync dry-run command execution!"
 logThis "Rsync dry-run has finished" INFO
 
