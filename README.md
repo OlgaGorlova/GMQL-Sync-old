@@ -62,7 +62,7 @@ $ ./gmqlsync.sh --delete /home/gmql/gmql_repository/data/public cineca:/gmql-dat
 ```sh
 $ ./gmqlsync.sh --exclude={Example_Dataset_1.*,Example_Dataset_2.*} /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
 ```
-The `Example_Dataset_1` and `Example_Dataset_2` datasets will be skipped from the coping process.
+The `Example_Dataset_1` and `Example_Dataset_2` datasets will be skipped from the copying process.
 
 ## Description
 The script is build for synchronizing gmql repository of public datasets.
