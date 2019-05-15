@@ -110,8 +110,12 @@ optionsList=""
 optionsShort="-"
 inputOptions="h-:"
 datePattern="$(date +%d/%m/%Y\ %H:%M:%S)"
-excludeOption="--exclude={dag,indexes,logs,queries,results,regions,'.*'}"
-excludedDatasets=
+#excludeOption="--exclude={dag,indexes,logs,queries,results,regions,'.*'}"
+#excludedDatasets=
+
+#### array of files to exclude
+declare -a excl_files
+exclFile="exclude.txt"
 
 ##################################################################################
 ######                       END OF GLOBAL VARIABLES                        ######
@@ -301,7 +305,10 @@ parse_input()
                             logThis "Logging level is set to: '${scriptLoggingLevel}'" INFO
                             ;;
                         exclude=*) val=${OPTARG#*=}
-                            excludedDatasets="$excludedDatasets,$val"
+                            val=${val#","}
+                            val=${val#'{'}
+                            val=${val%'}'*}
+                            excl_files+=($(echo ${val}))
                             logThis "The following will be excluded from copiyng: '$val'" INFO
                             ;;
                         help) usage; exit ;;
@@ -405,10 +412,15 @@ tmpDir_Is_Empty
 
 #### Trim spaces arround $optionsList
 optionsList=($(echo "$optionsList" | awk '{gsub(/^ +| +$/,"")} {print $0}'))
-excludeOption="--exclude={dag,indexes,logs,queries,results,regions,'.*',${excludedDatasets#","}}"
+
+excluded=$(printf "\n%s" "${excl_files[@]}")
+exclStatic=(dag indexes logs queries results regions '.*')
+exclStatic=$(printf "\n%s" "${exclStatic[@]}")
+echo "$exclStatic$excluded" > "$exclFile"
+#excludeOption="--exclude={dag,indexes,logs,queries,results,regions,'.*',${excludedDatasets#","}}"
 #### Rsync command dry-run
 logThis "Rsync dry-run is executing..." INFO
-rsyncDryRun="$(rsync -avzh $excludeOption --ignore-existing --itemize-changes $optionsList --dry-run $SOURCE/ $DEST/)"
+rsyncDryRun="$(rsync -avzh --exclude-from=$exclFile --ignore-existing --itemize-changes $optionsList --dry-run $SOURCE/ $DEST/)"
 check_command_output "An error occured during rsync dry-run command execution!"
 logThis "Rsync dry-run has finished" INFO
 
@@ -569,7 +581,8 @@ then
 
     #### Synchronize local gmql repository using 'rsync'
     logThis "Executing rsync for syncing local FS ..." INFO
-rsync_run="$(rsync -avzh --exclude={${excludedDatasets#","}} --ignore-existing --itemize-changes $optionsList $SOURCE/ $DEST/)"
+    echo ".*$excluded" > "$exclFile"
+    rsync_run="$(rsync -avzh --exclude-from=$exclFile --ignore-existing --itemize-changes $optionsList $SOURCE/ $DEST/)"
     check_command_output "An error occured during rsync command execution!"
 
     ### Clean temporary hdfs folders
