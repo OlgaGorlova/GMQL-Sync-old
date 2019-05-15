@@ -38,6 +38,7 @@ In that case, the `<SOURCE>` and `<DEST>` are set to the following:
 |  `--tmpHdfsSource`| set temporary directory for hdfs files movement on source server. Default value is: <br/> `"/share/repository/gmqlsync/tmpHDFS"`|
 |  `--tmpHdfsDest`  | set temporary directory for hdfs files movement on destination server. Default value is: <br/> `"/hadoop/gmql-sync-temp"`|
 |  `--logsDir`      | logging directory on source server. Default value is  `"/share/repository/gmqlsync/logs/"`|
+|  `--exclude=PATTERN` | exclude files matching PATTERN |
 |  `--help, (-h)`   | show help|
 
 ### Examples
@@ -56,6 +57,12 @@ $ ./gmqlsync.sh --dry-run /home/gmql/gmql_repository/data/public cineca:/gmql-da
 ```sh
 $ ./gmqlsync.sh --delete /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
 ```
+
+4. To exclude a dataset from copying, you can use the `--exclude={DSname.*}` option. For example:
+```sh
+$ ./gmqlsync.sh --exclude={Example_Dataset_1.*,Example_Dataset_2.*} /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
+```
+The `Example_Dataset_1` and `Example_Dataset_2` datasets will be skipped from the coping process.
 
 ## Description
 The script is build for synchronizing gmql repository of public datasets.
